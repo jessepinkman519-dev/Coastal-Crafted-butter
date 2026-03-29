@@ -1,94 +1,782 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coastal Creations — Compound Butter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coastal Creations — Compound Butter</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0B1F2A;
-  color: #E8D9B5;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.hero {
-  height: 70vh;
-  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-              url('butter.jpg') center/cover no-repeat;
-  display: flex;
-  align-items: flex-end;
-  padding: 20px;
-}
+    :root {
+      --bg: #09131b;
+      --bg2: #0f2230;
+      --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(255,255,255,0.09);
+      --text: #f7f1e6;
+      --muted: rgba(247, 241, 230, 0.82);
+      --soft: rgba(247, 241, 230, 0.6);
+      --gold: #d9b66e;
+      --gold-dark: #bf984d;
+      --butter: #f2d37a;
+      --line: rgba(255,255,255,0.09);
+      --shadow: 0 18px 50px rgba(0,0,0,0.32);
+      --radius: 24px;
+      --max: 1180px;
+    }
 
-h1 {
-  margin: 0;
-  font-size: 32px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.section {
-  padding: 25px;
-}
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at top left, rgba(57, 101, 133, 0.30), transparent 28%),
+        radial-gradient(circle at top right, rgba(217, 182, 110, 0.08), transparent 24%),
+        linear-gradient(180deg, #0a131b 0%, #0b1822 24%, #09131b 100%);
+      overflow-x: hidden;
+    }
 
-.btn {
-  display: block;
-  margin: 10px 0;
-  padding: 15px;
-  text-align: center;
-  background: #F4C542;
-  color: black;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.04) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(255,255,255,0.03) 25%, transparent 25%);
+      background-size: 32px 32px;
+      mix-blend-mode: soft-light;
+    }
 
-#qrcode {
-  background: white;
-  padding: 10px;
-  width: 180px;
-  margin: auto;
-}
-</style>
+    a {
+      transition: all 0.2s ease;
+    }
+
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: end;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 58%, rgba(7,13,18,0.92) 100%),
+        linear-gradient(90deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.08) 60%, rgba(0,0,0,0.24) 100%),
+        url('butter-hero.jpg') center center / cover no-repeat;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 180px;
+      background: linear-gradient(180deg, transparent, rgba(9,19,27,1));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+      letter-spacing: 1.6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      max-width: 760px;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: 0.95;
+      letter-spacing: -1.8px;
+    }
+
+    .hero p {
+      margin: 0 0 26px;
+      max-width: 610px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.09);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.14);
+      transform: translateY(-2px);
+    }
+
+    .section {
+      padding: 40px 0;
+    }
+
+    .panel,
+    .stat,
+    .flavor-card,
+    .story-card,
+    .gallery-card,
+    .qr-card,
+    .qr-panel,
+    .cta-band {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-top: -56px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .panel {
+      padding: 26px;
+    }
+
+    .panel h2,
+    .story-card h2,
+    .qr-card h2,
+    .cta-band h2,
+    .gallery-copy h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 38px);
+      line-height: 1.04;
+      letter-spacing: -1px;
+    }
+
+    .panel p,
+    .story-card p,
+    .qr-card p,
+    .gallery-copy p,
+    .cta-band p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stat {
+      padding: 22px;
+    }
+
+    .stat-label {
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--soft);
+    }
+
+    .stat-value {
+      margin-bottom: 8px;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .feature-image {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      max-height: 620px;
+      object-fit: cover;
+      border-radius: 28px;
+      display: block;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .story-card {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .story-points {
+      list-style: none;
+      margin: 18px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .story-points li {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: var(--muted);
+    }
+
+    .flavor-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .flavor-head h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 40px);
+      letter-spacing: -1px;
+    }
+
+    .flavor-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 540px;
+    }
+
+    .flavor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .flavor-card {
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flavor-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--butter));
+    }
+
+    .flavor-tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(217,182,110,0.14);
+      border: 1px solid rgba(217,182,110,0.26);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+    }
+
+    .flavor-card h3 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.6px;
+    }
+
+    .flavor-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .pairing {
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .gallery-card {
+      overflow: hidden;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 260px;
+      max-height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-copy {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    .qr-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .qr-card {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .qr-badge {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(217,182,110,0.14);
+      border: 1px solid rgba(217,182,110,0.24);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .qr-list {
+      margin: 18px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .qr-list li {
+      margin-bottom: 10px;
+    }
+
+    .qr-panel {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qr-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,182,110,0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    #qrcode {
+      width: 230px;
+      height: 230px;
+      background: #fff;
+      padding: 14px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    #qrcode canvas,
+    #qrcode img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .qr-panel h3 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .qr-panel p {
+      margin: 0 0 14px;
+      max-width: 320px;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+
+    .link-box {
+      width: 100%;
+      max-width: 420px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 13px;
+      word-break: break-all;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-band {
+      padding: 30px;
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(217,182,110,0.18), rgba(255,255,255,0.03));
+    }
+
+    .cta-band p {
+      max-width: 700px;
+      margin: 0 auto 18px;
+    }
+
+    .cta-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .cta-actions a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--gold);
+      color: #111;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-actions a:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+    }
+
+    .footer-note {
+      padding: 10px 20px 40px;
+      text-align: center;
+      color: rgba(247, 241, 230, 0.56);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .intro-grid,
+      .split,
+      .gallery-grid,
+      .qr-wrap,
+      .flavor-grid,
+      .cta-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 78vh;
+      }
+
+      .feature-image {
+        min-height: 300px;
+        max-height: 440px;
+      }
+
+      .intro-grid {
+        margin-top: -30px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        min-height: 72vh;
+      }
+
+      .hero-inner {
+        padding-bottom: 40px;
+      }
+
+      .panel,
+      .stat,
+      .story-card,
+      .flavor-card,
+      .qr-card,
+      .qr-panel,
+      .gallery-copy,
+      .cta-band {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      #qrcode {
+        width: 190px;
+        height: 190px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="hero">
-  <div>
-    <h1>Garlic Chive Butter</h1>
-    <p>Crafted on the Oregon Coast</p>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Coastal Creations • Compound Butter</div>
+      <h1>Crafted on the coast. Built to elevate flavor.</h1>
+      <p>
+        Small-batch compound butter with premium coastal identity, flavor-forward positioning, and a built-in QR experience designed to make the product feel bigger from day one.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#flavors">Explore Flavors</a>
+        <a class="btn btn-secondary" href="#qr-experience">Scan the Experience</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="panel">
+          <h2>More than butter.</h2>
+          <p>
+            Coastal Creations is built as a premium local food brand — not just a homemade product in a container. Flavor, presentation, story, and QR-powered packaging all work together to raise perceived value and make the brand memorable.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Brand Direction</div>
+            <div class="stat-value">Coastal Textured</div>
+            <div class="stat-note">Natural, rich, local, handcrafted, and visually premium.</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">ScanCraft Layer</div>
+            <div class="stat-value">Product → Experience</div>
+            <div class="stat-note">A label becomes a digital entry point instead of a dead end.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <img src="butter-jar.jpg" alt="Coastal Creations compound butter jar" class="feature-image">
+
+        <div class="story-card">
+          <h2>Built for taste, memory, and repeat purchase.</h2>
+          <p>
+            The goal is simple: create a product people enjoy immediately, remember visually, and come back for because it feels like a real brand from the start.
+          </p>
+
+          <ul class="story-points">
+            <li>Small-batch compound butter with premium local positioning.</li>
+            <li>Designed for bread, seafood, steak, and everyday elevation.</li>
+            <li>Built with a QR layer so the brand can live beyond the jar.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="flavors">
+    <div class="container">
+      <div class="flavor-head">
+        <h2>Launch Flavors</h2>
+        <p>Three focused flavors. No clutter. Stronger brand memory, cleaner production, better repeatability.</p>
+      </div>
+
+      <div class="flavor-grid">
+        <div class="flavor-card">
+          <div class="flavor-tag">Flagship</div>
+          <h3>Garlic Chive</h3>
+          <p>Rich, savory, and broadly appealing. Easy to love. Easy to reorder.</p>
+          <div class="pairing">Best with: steak • bread • potatoes</div>
+        </div>
+
+        <div class="flavor-card">
+          <div class="flavor-tag">Premium Coastal</div>
+          <h3>Garlic Basil Lemon</h3>
+          <p>Bright, herb-forward, and built for seafood, pasta, and lighter dishes.</p>
+          <div class="pairing">Best with: seafood • pasta • vegetables</div>
+        </div>
+
+        <div class="flavor-card">
+          <div class="flavor-tag">House Signature</div>
+          <h3>Coastal House Blend</h3>
+          <p>Balanced, versatile, and positioned as the everyday signature butter.</p>
+          <div class="pairing">Best with: toast • vegetables • finishing dishes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="butter-food.jpg" alt="Compound butter served with food">
+        </div>
+
+        <div class="gallery-stack">
+          <div class="gallery-card">
+            <img src="butter-close.jpg" alt="Close up of butter texture">
+          </div>
+
+          <div class="gallery-card gallery-copy">
+            <h2>Flavor deserves presentation.</h2>
+            <p>
+              That is the difference here. The product is only part of the equation. The rest is how it looks, how it feels, and how instantly someone understands the value when they see it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="qr-experience">
+    <div class="container">
+      <div class="qr-wrap">
+        <div class="qr-card">
+          <div class="qr-badge">QR Experience</div>
+          <h2>One scan. Real brand presence.</h2>
+          <p>
+            This is the killshot layer. The jar is physical, but the brand keeps going. A scan can open the story, the flavor, how to use it, where to buy it, and how to come back for more.
+          </p>
+          <ul class="qr-list">
+            <li>Makes the product feel more premium and intentional.</li>
+            <li>Creates a repeatable system for every flavor and future product.</li>
+            <li>Gives local placement, packaging, and samples a digital follow-through.</li>
+          </ul>
+        </div>
+
+        <div class="qr-panel">
+          <div id="qrcode"></div>
+          <h3>Scan to view this experience</h3>
+          <p>Open the full Coastal Creations demo instantly on mobile.</p>
+          <div class="link-box" id="live-url"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-band">
+        <h2>Simple product. Elevated system.</h2>
+        <p>
+          Coastal Creations is positioned to launch as a local premium food brand with room to expand into more flavors, better packaging, repeat buyers, and local placements.
+        </p>
+
+        <div class="cta-actions">
+          <a href="#">🧈 Explore Flavors</a>
+          <a href="#">📍 Available Locally</a>
+          <a href="#">📲 Follow the Brand</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    Coastal Creations — small-batch compound butter with coastal character.
   </div>
-</div>
 
-<div class="section">
-  <h2>Perfect for</h2>
-  <p>Steak • Bread • Seafood</p>
-</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const liveUrl = window.location.href;
+    document.getElementById("live-url").textContent = liveUrl;
 
-<div class="section">
-  <h2>Our Story</h2>
-  <p>Coastal Creations is built to elevate everyday meals with handcrafted, small-batch butter made with real ingredients.</p>
-</div>
-
-<div class="section">
-  <a class="btn" href="#">Order More</a>
-  <a class="btn" href="#">Follow Us</a>
-</div>
-
-<div class="section" style="text-align:center;">
-  <h2>Scan & Share</h2>
-  <div id="qrcode"></div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-new QRCode(document.getElementById("qrcode"), {
-  text: window.location.href,
-  width: 160,
-  height: 160
-});
-</script>
+    new QRCode(document.getElementById("qrcode"), {
+      text: liveUrl,
+      width: 196,
+      height: 196,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
 
 </body>
 </html>
