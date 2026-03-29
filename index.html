@@ -751,9 +751,9 @@
         </p>
 
         <div class="cta-actions">
-          <a href="#">🧈 Explore Flavors</a>
-          <a href="#">📍 Available Locally</a>
-          <a href="#">📲 Follow the Brand</a>
+          <a href="#flavors">🧈 Explore Flavors</a>
+          <a href="#qr-experience">📍 QR Experience</a>
+          <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">📲 Back to Top</a>
         </div>
       </div>
     </div>
@@ -765,8 +765,10 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    const liveUrl = window.location.href;
+    const liveUrl = "https://jessepinkman519-dev.github.io/Coastal-Crafted-budda/";
+
     document.getElementById("live-url").textContent = liveUrl;
+    document.getElementById("qrcode").innerHTML = "";
 
     new QRCode(document.getElementById("qrcode"), {
       text: liveUrl,
